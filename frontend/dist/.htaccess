@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Exclude /api/ from being handled by React Router
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirect all other non-file/non-directory requests to index.html
+RewriteRule . /index.html [L]
