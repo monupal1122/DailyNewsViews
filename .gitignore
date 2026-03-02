@@ -17,7 +17,7 @@ server/.env
 build/
 dist/
 frontend/build/
-frontend/dist/
+# frontend/dist/ ← We commit this for Hostinger (pre-built)
 
 # ===============================
 # Logs
