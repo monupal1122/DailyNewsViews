@@ -137,31 +137,45 @@ app.use((err, req, res, next) => {
     res.status(statusCode).send(message);
 });
 
-// 7. Server Startup
 const startServer = async () => {
-    // Start listening immediately (Prevents Hostinger 503)
-    app.listen(PORT, () => {
-        console.log(`>>> SERVER BOOTED SUCCESS ON PORT: ${PORT} <<<`);
+    console.log('--- STARTING SERVER BOOT SEQUENCE ---');
+
+    // 1. LISTEN IMMEDIATELY! This is the most crucial step for Hostinger 503 avoidance.
+    // We bind to the port before we do any heavy lifting like DB connections.
+    const server = app.listen(PORT, () => {
+        console.log(`>>> SUCCESS: CHRONICLE ENGINE ONLINE ON PORT ${PORT} <<<`);
     });
 
-    try {
-        await connectDB();
-        connectRedis();
+    server.on('error', (err) => {
+        console.error('!!! CRITICAL: SERVER FAILED TO BIND PORT !!!');
+        console.error(err);
+    });
 
-        // Seed Admin
-        const adminExists = await Admin.findOne({ email: process.env.ADMIN_EMAIL });
-        if (!adminExists && process.env.ADMIN_EMAIL) {
-            await Admin.create({
-                name: 'System Admin',
-                email: process.env.ADMIN_EMAIL,
-                password: process.env.ADMIN_PASSWORD,
-                role: 'admin'
-            });
-            console.log('Admin user seeded successfully');
+    // 2. RUN CONNECTORS IN BACKGROUND (DO NOT AWAIT TO PREVENT TIMEOUTS)
+    (async () => {
+        try {
+            console.log('Connecting to databases...');
+            await connectDB();
+            console.log('Database synced.');
+
+            connectRedis();
+            console.log('Redis initialized.');
+
+            // Seed Admin (Silent fail)
+            const adminExists = await Admin.findOne({ email: process.env.ADMIN_EMAIL });
+            if (!adminExists && process.env.ADMIN_EMAIL) {
+                await Admin.create({
+                    name: 'System Admin',
+                    email: process.env.ADMIN_EMAIL,
+                    password: process.env.ADMIN_PASSWORD,
+                    role: 'admin'
+                });
+                console.log('Root Admin Access ready.');
+            }
+        } catch (error) {
+            console.error('!!! ASYNC STARTUP ERROR:', error.message);
         }
-    } catch (error) {
-        console.error(`Post-startup error: ${error.message}`);
-    }
+    })();
 };
 
 startServer();
