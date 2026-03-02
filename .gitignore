@@ -1,15 +1,14 @@
 # ===============================
-# Node modules (both client & server)
+# Node modules
 # ===============================
 node_modules/
-client/node_modules/
-server/node_modules/
+frontend/node_modules/
 
 # ===============================
 # Environment variables
 # ===============================
 .env
-client/.env
+frontend/.env
 server/.env
 
 # ===============================
@@ -17,8 +16,8 @@ server/.env
 # ===============================
 build/
 dist/
-client/build/
-client/dist/
+frontend/build/
+frontend/dist/
 
 # ===============================
 # Logs
