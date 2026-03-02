@@ -1,0 +1,18 @@
+[
+  {
+    "image": "/banner1.webp",
+    "alt": "Banner 1"
+  },
+  {
+    "image": "/banner2.webp",
+    "alt": "Banner 2"
+  },
+  {
+    "image": "https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs2/127640682/original/67201042952a30e63642ef83ae86d4f265985b6b/design-unique-static-ads-banner-within-24-hours.jpg",
+    "alt": "Advertisement 3"
+  },
+  {
+    "image": "https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/127640682/original/a19076b707d6be895f66f7c60707e9779ebf5736/design-unique-static-ads-banner-within-24-hours.jpg",
+    "alt": "Advertisement 4"
+  }
+]
